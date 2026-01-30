@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>오키나와달인 카페 서포터즈 활동 서약서</title>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <style>
+        @page { size: A4; margin: 0; }
+        body {
+            font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+            color: #000;
+            margin: 0;
+            padding: 20px;
+            background-color: #555;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 210mm;
+            min-height: 297mm;
+            background-color: #fff;
+            padding: 20mm;
+            box-sizing: border-box;
+            position: relative;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 40px;
+            text-decoration: underline;
+            text-underline-offset: 8px;
+        }
+        .intro-text {
+            font-size: 15px; /* 글자 크기 약간 키움 */
+            margin-bottom: 30px;
+            line-height: 1.8;
+            text-align: center; /* 중앙 정렬로 변경 */
+            word-break: keep-all;
+            font-weight: bold;
+        }
+        .section-title {
+            font-weight: bold;
+            font-size: 15px;
+            margin: 20px 0 10px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 8px 10px;
+            font-size: 13px;
+            vertical-align: middle;
+        }
+        th {
+            background-color: #eee;
+            width: 100px;
+            text-align: center;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            border: none;
+            font-family: inherit;
+            font-size: 13px;
+            outline: none;
+            box-sizing: border-box;
+            background: transparent;
+        }
+
+        /* --- 성별 선택 --- */
+        .gender-selector {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .gender-btn {
+            padding: 5px 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            color: #999;
+            background: #fff;
+            transition: all 0.2s;
+        }
+        .gender-btn.selected {
+            background-color: #000;
+            color: #fff;
+            border-color: #000;
+            font-weight: bold;
+        }
+        .gender-btn.hidden { display: none; }
+        .reset-gender {
+            font-size: 11px;
+            text-decoration: underline;
+            color: #666;
+            cursor: pointer;
+            display: none; 
+            margin-left: 10px;
+        }
+
+        /* --- 생년월일 --- */
+        .birth-selector {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+        .birth-selector select {
+            border: 1px solid #ccc;
+            padding: 3px;
+            font-family: inherit;
+            font-size: 13px;
+            outline: none;
+            cursor: pointer;
+            background-color: #fff;
+        }
+
+        .declaration {
+            margin-top: 50px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 2;
+        }
+        
+        /* --- 하단 날짜 및 성명 영역 (수정됨) --- */
+        .bottom-info {
+            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            gap: 30px; /* 날짜와 이름 사이 간격 */
+        }
+        .bottom-info input {
+            font-size: 16px;
+            width: 120px;
+            text-align: left;
+            border-bottom: 1px solid #000;
+        }
+
+        /* --- 서명 영역 (수정됨: 더 크고 단독 배치) --- */
+        .signature-wrapper {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .signature-label {
+            font-size: 15px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .sig-box {
+            border: 2px solid #000; /* 테두리 조금 더 진하게 */
+            background: #fff;
+            cursor: crosshair;
+            display: block; 
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .control-panel {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            padding-bottom: 50px;
+        }
+        .btn {
+            padding: 12px 25px;
+            cursor: pointer;
+            border: none;
+            background: #fff;
+            font-weight: bold;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .btn-save { background: #000; color: #fff; } /* 저장 버튼 검정색 */
+        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    </style>
+</head>
+<body>
+
+<div class="container" id="capture-area">
+    <h1>오키나와달인 카페 서포터즈 활동 서약서</h1>
+
+    <div class="intro-text">
+        본인은 네이버 카페 [오키나와달인]의 서포터즈로서<br>
+        카페의 건강한 운영과 활성화를 위해 성실히 임할 것을 서약합니다.
+    </div>
+
+    <div class="section-title">1. 인적 사항</div>
+    <table>
+        <tr>
+            <th>성명</th>
+            <td><input type="text" id="main-name-input" placeholder="입력"></td>
+            <th>연락처</th>
+            <td><input type="number" placeholder="숫자만 입력"></td>
+        </tr>
+        <tr>
+            <th>닉네임</th>
+            <td><input type="text" placeholder="입력"></td>
+            <th>성별</th>
+            <td>
+                <div class="gender-selector">
+                    <input type="hidden" id="selected-gender" value="">
+                    <button class="gender-btn" onclick="selectGender('남')">남</button>
+                    <button class="gender-btn" onclick="selectGender('여')">여</button>
+                    <span class="reset-gender" onclick="resetGender()">다시 선택</span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th>네이버 ID</th>
+            <td><input type="text" placeholder="입력"></td>
+            <th>생년월일</th>
+            <td>
+                <div class="birth-selector">
+                    <select id="birth-year"></select>년
+                    <select id="birth-month"></select>월
+                    <select id="birth-day"></select>일
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <div class="section-title">2. 활동 기간 및 주요 내용</div>
+    <table>
+        <tr>
+            <th>활동 기간</th>
+            <td>2026년 2월 1일 ~ 2027년 1월 31일 (1년)</td>
+        </tr>
+        <tr>
+            <th style="height:100px;">주요 활동</th>
+            <td style="line-height: 1.8;">
+                • 카페 클린 활동: 카페 내 불법 광고, 유해 게시물 모니터링 및 단속<br>
+                • 회원 간 소통: 신규 회원 문의에 대한 댓글 활동<br>
+                • 회원&게시물 관리: 건의사항 체크, 매월 베스트 게시물 선정 등
+            </td>
+        </tr>
+    </table>
+
+    <div class="section-title">3. 자격 유지 및 종료 관련 안내</div>
+    <div style="font-size: 13px; line-height: 1.6; border: 1px solid #000; padding: 10px;">
+        • 서포터즈 활동 중 중도 포기하거나 활동이 현저히 저조할 경우 자격이 종료될 수 있으며, 이 경우 혜택은 제공되지 않습니다.<br>
+        • 활동 부진 시 운영진이 사전 안내를 통해 독려해 드리나, 이후에도 개선이 없을 경우 서포터즈 활동은 강제 종료될 수 있습니다.
+    </div>
+
+    <div class="declaration">
+        본인은 위의 내용을 충분히 숙지하였으며, 오키나와달인 서포터즈로서<br>책임감을 가지고 활동할 것을 서약합니다.
+    </div>
+
+    <div class="bottom-info">
+        <div class="date-part">
+            <span id="today-year"></span>년
+            <span id="today-month"></span>월
+            <span id="today-day"></span>일
+        </div>
+        <div class="name-part">
+            <span>성명 :</span>
+            <input type="text" id="sub-name-input" readonly>
+        </div>
+    </div>
+
+    <div class="signature-wrapper">
+        <div class="signature-label">서명</div>
+        <canvas id="sig-canvas" width="400" height="160" class="sig-box"></canvas>
+    </div>
+
+</div>
+
+<div class="control-panel">
+    <button class="btn" id="clear-btn">서명 지우기</button>
+    <button class="btn btn-save" id="save-btn">서약서 저장</button>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        
+        // [기능 1] 이름 동기화
+        const mainName = document.getElementById('main-name-input');
+        const subName = document.getElementById('sub-name-input');
+        
+        mainName.addEventListener('input', function() {
+            subName.value = this.value;
+        });
+
+        // [기능 2] 생년월일 세팅
+        const yearSelect = document.getElementById('birth-year');
+        const monthSelect = document.getElementById('birth-month');
+        const daySelect = document.getElementById('birth-day');
+        
+        const currentYear = new Date().getFullYear();
+        const startYear = 1940;
+        const defaultYear = 1980; 
+
+        for (let y = currentYear; y >= startYear; y--) {
+            const option = document.createElement('option');
+            option.value = y;
+            option.text = y;
+            if (y === defaultYear) option.selected = true;
+            yearSelect.appendChild(option);
+        }
+        for (let m = 1; m <= 12; m++) {
+            const option = document.createElement('option');
+            option.value = m;
+            option.text = m;
+            monthSelect.appendChild(option);
+        }
+        for (let d = 1; d <= 31; d++) {
+            const option = document.createElement('option');
+            option.value = d;
+            option.text = d;
+            daySelect.appendChild(option);
+        }
+
+        // [기능 3] 오늘 날짜 자동 입력
+        const today = new Date();
+        document.getElementById('today-year').textContent = today.getFullYear();
+        document.getElementById('today-month').textContent = today.getMonth() + 1;
+        document.getElementById('today-day').textContent = today.getDate();
+
+        // [기능 4] 서명 캔버스
+        const canvas = document.getElementById("sig-canvas");
+        const ctx = canvas.getContext("2d");
+        let isDrawing = false;
+
+        function getPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return {
+                x: clientX - rect.left,
+                y: clientY - rect.top
+            };
+        }
+
+        function startDraw(e) {
+            isDrawing = true;
+            const pos = getPos(e);
+            ctx.beginPath();
+            ctx.moveTo(pos.x, pos.y);
+            ctx.lineWidth = 3; 
+            ctx.lineCap = "round";
+            ctx.strokeStyle = "#000";
+        }
+
+        function drawing(e) {
+            if (!isDrawing) return;
+            if(e.cancelable) e.preventDefault(); 
+            const pos = getPos(e);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+        }
+
+        function stopDraw() { isDrawing = false; }
+
+        canvas.addEventListener("mousedown", startDraw);
+        canvas.addEventListener("mousemove", drawing);
+        window.addEventListener("mouseup", stopDraw);
+
+        canvas.addEventListener("touchstart", startDraw, {passive: false});
+        canvas.addEventListener("touchmove", drawing, {passive: false});
+        canvas.addEventListener("touchend", stopDraw);
+
+        document.getElementById("clear-btn").addEventListener("click", () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+
+        // [기능 5] 저장 기능
+        document.getElementById("save-btn").addEventListener("click", function() {
+            window.scrollTo(0, 0);
+
+            const captureArea = document.getElementById("capture-area");
+
+            html2canvas(captureArea, {
+                scale: 4, 
+                backgroundColor: "#ffffff",
+                scrollX: 0,
+                scrollY: 0
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = '오키나와달인_서약서.png';
+                link.href = canvas.toDataURL("image/png");
+                link.click();
+            }).catch(err => {
+                alert("저장 오류: " + err);
+            });
+        });
+    });
+
+    // [기능 6] 성별 선택
+    function selectGender(gender) {
+        const buttons = document.querySelectorAll('.gender-btn');
+        const resetBtn = document.querySelector('.reset-gender');
+        const hiddenInput = document.getElementById('selected-gender');
+
+        hiddenInput.value = gender;
+        buttons.forEach(btn => {
+            if (btn.textContent === gender) {
+                btn.classList.add('selected');
+                btn.classList.remove('hidden');
+            } else {
+                btn.classList.remove('selected');
+                btn.classList.add('hidden');
+            }
+        });
+        resetBtn.style.display = 'inline';
+    }
+
+    function resetGender() {
+        const buttons = document.querySelectorAll('.gender-btn');
+        const resetBtn = document.querySelector('.reset-gender');
+        const hiddenInput = document.getElementById('selected-gender');
+
+        hiddenInput.value = "";
+        buttons.forEach(btn => {
+            btn.classList.remove('selected');
+            btn.classList.remove('hidden');
+        });
+        resetBtn.style.display = 'none';
+    }
+</script>
+
+</body>
+</html>
